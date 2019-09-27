@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Leitor {
 
-    private static final String LABIRINTO_TXT = "labirinto1_10.txt";
+    private static final String LABIRINTO_TXT = "labirinto4_20.txt";
     private int tamanho;
     private String[][] matriz;
 
@@ -177,39 +177,26 @@ public class Leitor {
         String result = "";
         ArrayList<String> lista = new ArrayList<>();
         lista = getCoorVaziList();
+        int a = 0;
+        int b = 0;
 
         for (int x = 0; x < lista.size(); x++) {
-
-            int a = Integer.parseInt(lista.get(x).substring(0, 1));// Coordenada da primeira posição vazia no tabuleiro
-            // representa coluna "J"
-            int b = Integer.parseInt(lista.get(x).substring(2, 3));// Coordenada da primeira posição vazia dao tabuleiro
-            // representa linha
-            // Coluna = variável J
-            // Linha = variável I
-
-            for (int i = 0; i < matriz.length; i++) {
-                for (int j = 0; j < matriz.length; j++) {
-
-                    if (matriz[i][j] == "1") {
-                        result = result + "0 ";
-                    } else {
-                        if (i == b && j == a) {
-                            result = result + "0 ";
-                        }
-                        if (matriz[i][j] == "0") {
-                            if (matriz[i][j - 1] == "0") {
-                                result = result + "1 ";
-                            }
-                            if (matriz[i + 1][j + 1] == "0") {
-                                result = result + "1 ";
-                            }
-                        }
-
-                    }
-
-                }
-
+            if (lista.get(x).length() == 3) {
+                a = Integer.parseInt(lista.get(x).substring(0, 1));// Coordenada da primeira posição vazia no tabuleiro
+                // representa coluna "J"
+                b = Integer.parseInt(lista.get(x).substring(2, 3));// Coordenada da primeira posição vazia dao tabuleiro
+                // representa linha
+                // Coluna = variável J
+                // Linha = variável I
             }
+            if (lista.get(x).length() == 4) {
+                a = Integer.parseInt(lista.get(x).substring(0, 1));
+                b = Integer.parseInt(lista.get(x).substring(3, 4));
+            }
+
+
+            result = result + ehVisinho(a, b) + "\n";
+
         }
 
         return result;
@@ -234,9 +221,31 @@ public class Leitor {
         return aux;
     }
 
+    /***
+     * @param coluna
+     * @param linha
+     * @return
+     * =========================    Se é visinho     =========================
+     */
+    public String ehVisinho(int coluna, int linha) {
+        String visi = "";
+
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz.length; j++) {
+                if (matriz[i][j].equals("0") && ((j == coluna - 1 && i == linha - 1) || (j == coluna && i == linha - 1) || (j == coluna + 1 && i == linha - 1) || (j == coluna - 1 && i == linha) || (j == coluna + 1 && i == linha) || (j == coluna - 1 && i == linha + 1) || (j == coluna && i == linha + 1) || (j == coluna + 1 && i == linha + 1))) {
+                    visi = visi + "1 ";
+                } else {
+                    visi = visi + "0 ";
+                }
+            }
+        }
+
+        return visi;
+    }
+
 
     /***
-     * =========================    Main()  =========================
+     * =========================    Main ()   =========================
      */
     public static void main(String[] args) throws IOException {
         Leitor l = new Leitor();
@@ -244,7 +253,7 @@ public class Leitor {
         String[][] mat = l.geraMatriz();
         l.printaMatriz();
         System.out.println();
-        System.out.println("Coordenadas vazias \n" + l.getCoordVazias());
+        System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
         System.out.println("Vetor de visinhos");
         System.out.println(l.disTVisinhos());
         System.out.println("Posicoes vazias: " + l.getPosicoesVazias());
