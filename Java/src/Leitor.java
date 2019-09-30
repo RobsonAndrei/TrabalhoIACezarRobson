@@ -8,11 +8,14 @@ import java.util.Scanner;
 public class Leitor {
 
     private static final String LABIRINTO_TXT = "labirinto1_10.txt";
+    private static final String OKSAIDA = " ============ ENCONTROU A SAÍDA ============ ";
     private int tamanho;
     private String[][] matriz;
     public static int SIZE = 0; //Tamanho do vetor com as sequencia das soluções
     public final static int TAM = 11;// Tamanho da população: numero do soluções
     public final static int MAX_GERACAO = 50;//Numero máximo de gerações
+    public static int linhaSaida;
+    public static int colunaSaida;
 
 
     /***
@@ -62,6 +65,9 @@ public class Leitor {
             System.out.print(vetorSolucao[i] + " ");
         }
 
+        for (int geracao = 0; geracao < MAX_GERACAO; geracao++) {
+
+        }
 
         pontuacao = getAptidao(vetorSolucao);
 
@@ -90,6 +96,12 @@ public class Leitor {
                             aptidao = aptidao + 0;
                             _AgLinha = _AgLinha - 1;
                             break;
+                        }
+                        if (matriz[_AgLinha - 1][_AgColun].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
+                            break;
                         } else {
                             aptidao++;
                         }
@@ -102,6 +114,12 @@ public class Leitor {
                         if (matriz[_AgLinha + 1][_AgColun].equals("0")) {
                             aptidao = aptidao + 0;
                             _AgLinha = _AgLinha + 1;
+                            break;
+                        }
+                        if (matriz[_AgLinha + 1][_AgColun].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
                             break;
                         } else {
                             aptidao++;
@@ -116,6 +134,12 @@ public class Leitor {
                             aptidao = aptidao + 0;
                             _AgColun = _AgColun - 1;
                             break;
+                        }
+                        if (matriz[_AgLinha][_AgColun - 1].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
+                            break;
                         } else {
                             aptidao++;
                         }
@@ -128,6 +152,12 @@ public class Leitor {
                         if (matriz[_AgLinha][_AgColun + 1].equals("0")) {
                             aptidao = aptidao + 0;
                             _AgColun = _AgColun + 1;
+                            break;
+                        }
+                        if (matriz[_AgLinha][_AgColun + 1].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
                             break;
                         } else {
                             aptidao++;
@@ -143,6 +173,12 @@ public class Leitor {
                             _AgLinha = _AgLinha - 1;
                             _AgColun = _AgColun + 1;
                             break;
+                        }
+                        if (matriz[_AgLinha - 1][_AgColun + 1].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
+                            break;
                         } else {
                             aptidao++;
                         }
@@ -156,6 +192,12 @@ public class Leitor {
                             aptidao = aptidao + 0;
                             _AgLinha = _AgLinha - 1;
                             _AgColun = _AgColun - 1;
+                            break;
+                        }
+                        if (matriz[_AgLinha - 1][_AgColun - 1].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
                             break;
                         } else {
                             aptidao++;
@@ -171,6 +213,12 @@ public class Leitor {
                             _AgLinha = _AgLinha + 1;
                             _AgColun = _AgColun + 1;
                             break;
+                        }
+                        if (matriz[_AgLinha + 1][_AgColun + 1].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
+                            break;
                         } else {
                             aptidao++;
                         }
@@ -184,6 +232,12 @@ public class Leitor {
                             aptidao = aptidao + 0;
                             _AgLinha = _AgLinha + 1;
                             _AgColun = _AgColun - 1;
+                            break;
+                        }
+                        if (matriz[_AgLinha + 1][_AgColun - 1].equals("S")) {
+                            System.out.println(OKSAIDA);
+                            linhaSaida = _AgLinha;
+                            colunaSaida = _AgColun;
                             break;
                         } else {
                             aptidao++;
