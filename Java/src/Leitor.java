@@ -2,13 +2,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Leitor {
 
-    private static final String LABIRINTO_TXT = "labirinto4_20.txt";
+    private static final String LABIRINTO_TXT = "labirinto1_10.txt";
     private int tamanho;
     private String[][] matriz;
+    public static int SIZE = 0; //Tamanho do vetor com as sequencia das soluções
+    public final static int TAM = 11;// Tamanho da população: numero do soluções
+    public final static int MAX_GERACAO = 50;//Numero máximo de gerações
+
 
     /***
      * =========================    Construtor  =========================
@@ -27,8 +32,176 @@ public class Leitor {
         return matriz;
     }
 
+    public void _ALGORITIMOGENETICO() {
+        int pontuacao = 0;
+        SIZE = getPosicoesVazias();
+        int[] vetorSolucao = new int[SIZE];//Vetor de soluções possiveis do tamanho minimo das posições vazias;
+        /***
+         * =============================================================================================
+         *                      Codificação para os movientos do agente no tabuleiro
+         * =============================================================================================
+         *
+         *          Cima:                   - 0     linha - 1   coluna
+         *          Baixo:                  - 1     linha + 1   coluna
+         *          Esquerda                - 2     linha       coluna - 1
+         *          Direita                 - 3     linha       coluna + 1
+         *          Diagonal cima direita   - 4     linha - 1   coluna + 1
+         *          Diagonal cima esquerda  - 5     linha - 1   coluna - 1
+         *          Diagonal baixo direita  - 6     linha + 1   coluna + 1
+         *          Diagonal baixo esquerda - 7     linha + 1   coluna - 1
+         *
+         * =============================================================================================
+         * =============================================================================================
+         */
+        Random r = new Random();
+        for (int i = 0; i < vetorSolucao.length; i++) {
+            vetorSolucao[i] = r.nextInt(8);
+        }
+
+        for (int i = 0; i < vetorSolucao.length; i++) {
+            System.out.print(vetorSolucao[i] + " ");
+        }
+
+
+        pontuacao = getAptidao(vetorSolucao);
+
+        System.out.println("Aptidão : " + pontuacao);
+
+
+    }
+
     /***
-     * =========================    Mostra a matriz =========================
+     *
+     * @param vetorSolucao
+     * @return
+     *
+     * Recebe um vetor de soluções e retorna um valor de acordo com a aptidão dos movientos do
+     * Agente dentro do tabuleiro.
+     */
+    private int getAptidao(int[] vetorSolucao) {
+        int aptidao = 0;
+        int _AgLinha = linhaAgente(matriz);
+        int _AgColun = colunaAgente(matriz);
+        for (int i = 0; i < vetorSolucao.length; i++) {
+            switch (vetorSolucao[i]) {
+                case 0:
+                    try {
+                        if (matriz[_AgLinha - 1][_AgColun].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgLinha = _AgLinha - 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 1:
+                    try {
+                        if (matriz[_AgLinha + 1][_AgColun].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgLinha = _AgLinha + 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 2:
+                    try {
+                        if (matriz[_AgLinha][_AgColun - 1].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgColun = _AgColun - 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 3:
+                    try {
+                        if (matriz[_AgLinha][_AgColun + 1].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgColun = _AgColun + 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 4:
+                    try {
+                        if (matriz[_AgLinha - 1][_AgColun + 1].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgLinha = _AgLinha - 1;
+                            _AgColun = _AgColun + 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 5:
+                    try {
+                        if (matriz[_AgLinha - 1][_AgColun - 1].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgLinha = _AgLinha - 1;
+                            _AgColun = _AgColun - 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 6:
+                    try {
+                        if (matriz[_AgLinha + 1][_AgColun + 1].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgLinha = _AgLinha + 1;
+                            _AgColun = _AgColun + 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                case 7:
+                    try {
+                        if (matriz[_AgLinha + 1][_AgColun - 1].equals("0")) {
+                            aptidao = aptidao + 0;
+                            _AgLinha = _AgLinha + 1;
+                            _AgColun = _AgColun - 1;
+                            break;
+                        } else {
+                            aptidao++;
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //System.out.println("Erro! " + e.getMessage());
+                    }
+                default:
+                    aptidao = aptidao;
+
+            }
+        }
+        return aptidao;
+    }
+
+    /***
+     * =========================    Mostra a matriz =====================================
      */
     public void printaMatriz() {
         for (int i = 0; i < matriz.length; i++) {
@@ -253,11 +426,12 @@ public class Leitor {
         String[][] mat = l.geraMatriz();
         l.printaMatriz();
         System.out.println();
-        System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
+        //System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
         System.out.println("Vetor de visinhos");
-        System.out.println(l.disTVisinhos());
+        // System.out.println(l.disTVisinhos());
         System.out.println("Posicoes vazias: " + l.getPosicoesVazias());
         System.out.println("Posicoes linha do agente " + l.linhaAgente(mat) + " Coluna agente: " + l.colunaAgente(mat));
+        l._ALGORITIMOGENETICO();
 
     }
 }
