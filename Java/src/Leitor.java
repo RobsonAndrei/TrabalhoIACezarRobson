@@ -9,7 +9,8 @@ public class Leitor {
 
     private static final String LABIRINTO_TXT = "labirinto1_10.txt";
     private static final String OKSAIDA = " ============ ENCONTROU A SAÍDA ============ ";
-    private int tamanho;
+    private int tamanhoPopulacao;
+    private static final int _TAMPOP = 11;
     private String[][] matriz;
     public static int SIZE = 0; //Tamanho do vetor com as sequencia das soluções
     public final static int TAM = 11;// Tamanho da população: numero do soluções
@@ -23,12 +24,12 @@ public class Leitor {
      * @throws IOException
      */
     public Leitor() throws IOException {
-        this.tamanho = lerArqRetMatriz().length;
+        this.tamanhoPopulacao = lerArqRetMatriz().length;
         this.matriz = geraMatriz();
     }
 
-    public int getTamanho() {
-        return tamanho;
+    public int getTamanhoPopulacao() {
+        return tamanhoPopulacao;
     }
 
     public String[][] getMatriz() {
@@ -57,21 +58,38 @@ public class Leitor {
          * =============================================================================================
          */
         Random r = new Random();
-        for (int i = 0; i < vetorSolucao.length; i++) {
-            vetorSolucao[i] = r.nextInt(8);
-        }
-
-        for (int i = 0; i < vetorSolucao.length; i++) {
-            System.out.print(vetorSolucao[i] + " ");
-        }
+        int[][] vetorPop = new int[_TAMPOP][vetorSolucao.length];
+        int[] vetaux = new int[vetorSolucao.length+1];
 
         for (int geracao = 0; geracao < MAX_GERACAO; geracao++) {
+            System.out.println("Geraçao:" + geracao);
 
+            for (int i = 0; i < _TAMPOP; i++) {
+                for (int j = 0; j < vetorSolucao.length; j++) {
+                    vetorPop[i][j] = r.nextInt(8);
+                }
+            }
+
+            for (int i = 0; i < vetorPop.length; i++) {
+                System.out.print("(" + i + ") ");
+                for (int j = 0; j < vetorPop[0].length; j++) {
+
+                    System.out.print(vetorPop[i][j] + " ");
+                    vetaux[j] = vetorPop[i][j];
+                    vetaux[vetaux.length-1] = getAptidao(vetorPop[0]);
+                }
+                for (int j = 0; j < vetaux.length; j++) {
+                    //System.out.print(vetaux[j]);
+                }
+                System.out.println(" :Aptidao: " + getAptidao(vetaux));
+                //System.out.println();
+            }
+
+
+            break;
         }
 
         pontuacao = getAptidao(vetorSolucao);
-
-        System.out.println("Aptidão : " + pontuacao);
 
 
     }
@@ -104,10 +122,12 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        break;
                     }
                 case 1:
                     try {
@@ -123,10 +143,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 case 2:
                     try {
@@ -142,10 +165,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 case 3:
                     try {
@@ -161,10 +187,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 case 4:
                     try {
@@ -181,10 +210,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 case 5:
                     try {
@@ -201,10 +233,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 case 6:
                     try {
@@ -221,10 +256,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 case 7:
                     try {
@@ -241,10 +279,13 @@ public class Leitor {
                             break;
                         } else {
                             aptidao++;
+                            break;
                         }
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
+                        break;
                     }
                 default:
                     aptidao = aptidao;
