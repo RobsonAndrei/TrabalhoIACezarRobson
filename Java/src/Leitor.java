@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Leitor {
 
-    private static final String LABIRINTO_TXT = "labirinto1_10.txt";
+    private static final String LABIRINTO_TXT = "labirinto2_10.txt";
     private static final String OKSAIDA = " ============ ENCONTROU A SAÍDA ============ ";
     private int tamanhoPopulacao;
     private static final int _TAMPOP = 11;
@@ -37,7 +37,7 @@ public class Leitor {
     }
 
     public void _ALGORITIMOGENETICO() {
-        int pontuacao = 0;
+
         SIZE = getPosicoesVazias();
         int[] vetorSolucao = new int[SIZE];//Vetor de soluções possiveis do tamanho minimo das posições vazias;
         /***
@@ -59,7 +59,7 @@ public class Leitor {
          */
         Random r = new Random();
         int[][] vetorPop = new int[_TAMPOP][vetorSolucao.length];
-        int[] vetaux = new int[vetorSolucao.length+1];
+        int[] vetaux = new int[vetorSolucao.length + 1];
 
         for (int geracao = 0; geracao < MAX_GERACAO; geracao++) {
             System.out.println("Geraçao:" + geracao);
@@ -76,7 +76,7 @@ public class Leitor {
 
                     System.out.print(vetorPop[i][j] + " ");
                     vetaux[j] = vetorPop[i][j];
-                    vetaux[vetaux.length-1] = getAptidao(vetorPop[0]);
+                    vetaux[vetaux.length - 1] = getAptidao(vetorPop[0]);
                 }
                 for (int j = 0; j < vetaux.length; j++) {
                     //System.out.print(vetaux[j]);
@@ -88,8 +88,6 @@ public class Leitor {
 
             break;
         }
-
-        pontuacao = getAptidao(vetorSolucao);
 
 
     }
@@ -127,6 +125,7 @@ public class Leitor {
 
                     } catch (ArrayIndexOutOfBoundsException e) {
                         //System.out.println("Erro! " + e.getMessage());
+                        aptidao++;
                         break;
                     }
                 case 1:
@@ -521,9 +520,9 @@ public class Leitor {
         String[][] mat = l.geraMatriz();
         l.printaMatriz();
         System.out.println();
-        //System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
+           //System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
         System.out.println("Vetor de visinhos");
-        // System.out.println(l.disTVisinhos());
+           //System.out.println(l.disTVisinhos());
         System.out.println("Posicoes vazias: " + l.getPosicoesVazias());
         System.out.println("Posicoes linha do agente " + l.linhaAgente(mat) + " Coluna agente: " + l.colunaAgente(mat));
         l._ALGORITIMOGENETICO();
