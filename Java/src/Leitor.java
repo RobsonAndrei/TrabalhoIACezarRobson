@@ -2,12 +2,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Leitor {
 
-    private static final String LABIRINTO_TXT = "labirinto2_10.txt";
+    private static final String LABIRINTO_TXT = "labTest1.txt";
     private static final String OKSAIDA = " ============ ENCONTROU A SAÍDA ============ ";
     private int tamanhoPopulacao;
     private static final int _TAMPOP = 11;
@@ -17,6 +18,7 @@ public class Leitor {
     public final static int MAX_GERACAO = 50;//Numero máximo de gerações
     public static int linhaSaida;
     public static int colunaSaida;
+    private List<String> saltos;
 
 
     /***
@@ -26,6 +28,7 @@ public class Leitor {
     public Leitor() throws IOException {
         this.tamanhoPopulacao = lerArqRetMatriz().length;
         this.matriz = geraMatriz();
+        saltos = new ArrayList<>();
     }
 
     public int getTamanhoPopulacao() {
@@ -104,188 +107,241 @@ public class Leitor {
         int aptidao = 0;
         int _AgLinha = linhaAgente(matriz);
         int _AgColun = colunaAgente(matriz);
+
+        //if(coluna >= 0 && coluna < posicao.length && linha >= 0 && linha < posicao[i].length){
+        //posicao[i][j] = posicao[coluna][linha];
+        //  posicao[coluna][linha] = 0;
+
+
         for (int i = 0; i < vetorSolucao.length; i++) {
             switch (vetorSolucao[i]) {
-                case 0:
-                    try {
+                case 0://Cima
+
+                    if (_AgLinha - 1 >= 0 && _AgLinha - 1 < matriz.length) {
                         if (matriz[_AgLinha - 1][_AgColun].equals("0")) {
-                            aptidao = aptidao + 0;
                             _AgLinha = _AgLinha - 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha - 1][_AgColun].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha - 1][_AgColun].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
-
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
                     }
-                case 1:
-                    try {
+
+                case 1://baixo
+
+                    if (_AgLinha + 1 >= 0 && _AgLinha + 1 < matriz.length) {
                         if (matriz[_AgLinha + 1][_AgColun].equals("0")) {
-                            aptidao = aptidao + 0;
                             _AgLinha = _AgLinha + 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha + 1][_AgColun].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha + 1][_AgColun].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
-
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
                     }
-                case 2:
-                    try {
+
+
+                case 2://esquerda
+
+                    if (_AgColun - 1 >= 0 && _AgColun - 1 < matriz.length) {
                         if (matriz[_AgLinha][_AgColun - 1].equals("0")) {
-                            aptidao = aptidao + 0;
                             _AgColun = _AgColun - 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha][_AgColun - 1].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha][_AgColun - 1].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
 
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
                     }
-                case 3:
-                    try {
+
+
+                case 3://direita
+
+                    if (_AgColun + 1 >= 0 && _AgColun + 1 < matriz.length) {
                         if (matriz[_AgLinha][_AgColun + 1].equals("0")) {
-                            aptidao = aptidao + 0;
                             _AgColun = _AgColun + 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha][_AgColun + 1].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha][_AgColun + 1].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
 
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
                     }
-                case 4:
-                    try {
+
+
+                case 4://cima_direita
+
+                    if (_AgColun + 1 >= 0 && _AgColun + 1 < matriz.length && _AgLinha - 1 >= 0 && _AgLinha - 1 < matriz.length) {
                         if (matriz[_AgLinha - 1][_AgColun + 1].equals("0")) {
-                            aptidao = aptidao + 0;
-                            _AgLinha = _AgLinha - 1;
                             _AgColun = _AgColun + 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha - 1][_AgColun + 1].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            _AgLinha = _AgLinha - 1;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha - 1][_AgColun + 1].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
 
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
                     }
-                case 5:
-                    try {
+
+
+                case 5://cima_esquerda
+
+                    if (_AgColun - 1 >= 0 && _AgColun - 1 < matriz.length && _AgLinha - 1 >= 0 && _AgLinha - 1 < matriz.length) {
                         if (matriz[_AgLinha - 1][_AgColun - 1].equals("0")) {
-                            aptidao = aptidao + 0;
+                            _AgColun = _AgColun - 1;
                             _AgLinha = _AgLinha - 1;
-                            _AgColun = _AgColun - 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha - 1][_AgColun - 1].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha - 1][_AgColun - 1].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
 
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
+
                     }
-                case 6:
-                    try {
+
+
+                case 6://baixo_direita
+
+                    if (_AgColun + 1 >= 0 && _AgColun + 1 < matriz.length && _AgLinha + 1 >= 0 && _AgLinha + 1 < matriz.length) {
                         if (matriz[_AgLinha + 1][_AgColun + 1].equals("0")) {
-                            aptidao = aptidao + 0;
-                            _AgLinha = _AgLinha + 1;
                             _AgColun = _AgColun + 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha + 1][_AgColun + 1].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
-                            break;
-                        } else {
-                            aptidao++;
-                            break;
-                        }
-
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
-                        aptidao++;
-                        break;
-                    }
-                case 7:
-                    try {
-                        if (matriz[_AgLinha + 1][_AgColun - 1].equals("0")) {
-                            aptidao = aptidao + 0;
                             _AgLinha = _AgLinha + 1;
-                            _AgColun = _AgColun - 1;
-                            break;
-                        }
-                        if (matriz[_AgLinha + 1][_AgColun - 1].equals("S")) {
-                            System.out.println(OKSAIDA);
-                            linhaSaida = _AgLinha;
-                            colunaSaida = _AgColun;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
                             break;
                         } else {
-                            aptidao++;
-                            break;
+                            if (matriz[_AgLinha + 1][_AgColun + 1].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
                         }
 
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //System.out.println("Erro! " + e.getMessage());
+                    } else {
                         aptidao++;
                         break;
                     }
+
+
+                case 7://baixo_esquerda
+
+                    if (_AgColun - 1 >= 0 && _AgColun - 1 < matriz.length && _AgLinha + 1 >= 0 && _AgLinha + 1 < matriz.length) {
+                        if (matriz[_AgLinha + 1][_AgColun - 1].equals("0")) {
+                            _AgColun = _AgColun - 1;
+                            _AgLinha = _AgLinha + 1;
+                            saltos.add("(" + _AgLinha + "," + _AgColun + ")");
+                            break;
+                        } else {
+                            if (matriz[_AgLinha + 1][_AgColun - 1].equals("S")) {
+                                System.out.println(OKSAIDA);
+                                linhaSaida = _AgLinha;
+                                colunaSaida = _AgColun;
+                                for (int j = 0; j < saltos.size(); j++) {
+                                    System.out.print(saltos.get(j) + " ");
+                                }
+                                break;
+                            } else {
+                                aptidao++;
+                                break;
+                            }
+                        }
+
+
+                    } else {
+                        aptidao++;
+                        break;
+                    }
+
                 default:
                     aptidao = aptidao;
 
@@ -296,6 +352,8 @@ public class Leitor {
 
     /***
      * =========================    Mostra a matriz =====================================
+     *
+     * ==================================================================================
      */
     public void printaMatriz() {
         for (int i = 0; i < matriz.length; i++) {
@@ -312,6 +370,8 @@ public class Leitor {
      * @param matrix
      * @return
      * =========================    Posição da linha do Agente  =========================
+     *
+     * ==================================================================================
      */
     public int linhaAgente(String[][] matrix) {
         int aux = 0;
@@ -349,6 +409,9 @@ public class Leitor {
      *
      * @return
      * =========================    Pega numero de posições vazias no tabuleiro =========================
+     *
+     *
+     * ==================================================================================================
      */
     public int getPosicoesVazias() {
         int aux = 0;
@@ -367,6 +430,8 @@ public class Leitor {
      *
      * @return
      * =========================    Mostras a localizações de todas as posições vazias  =========================
+     *
+     * ==========================================================================================================
      */
     public String getCoordVazias() {
         String aux = "";
@@ -385,7 +450,9 @@ public class Leitor {
     /***
      *
      * @return
-     * =========================    Retorna uma lista em a ordem de inserção das coordenadas de cada posicao vazia  =========================
+     * =======    Retorna uma lista em a ordem de inserção das coordenadas de cada posicao vazia  =====================
+     *
+     * ================================================================================================================
      */
     public ArrayList<String> getCoorVaziList() {
         ArrayList<String> list = new ArrayList<>();
@@ -404,6 +471,8 @@ public class Leitor {
      * @return
      * @throws IOException
      * =========================    Gera Matriz de Strings    =========================
+     *
+     * ================================================================================
      */
     public String[][] geraMatriz() throws IOException {
         String[][] mat = lerArqRetMatriz();
@@ -438,7 +507,10 @@ public class Leitor {
      *
      *
      * @return
-     * =========================
+     * ===========================================================================================================
+     *
+     *
+     * ===========================================================================================================
      */
     public String disTVisinhos() {
         String result = "";
@@ -474,6 +546,8 @@ public class Leitor {
      * @return
      * @throws FileNotFoundException
      * =========================    Le arquivo labirinto    =========================
+     *
+     * ==============================================================================
      */
     public String[][] lerArqRetMatriz() throws FileNotFoundException {
         String[][] aux = null;
@@ -493,6 +567,8 @@ public class Leitor {
      * @param linha
      * @return
      * =========================    Se é visinho     =========================
+     *
+     * =======================================================================
      */
     public String ehVisinho(int coluna, int linha) {
         String visi = "";
@@ -511,8 +587,14 @@ public class Leitor {
     }
 
 
+    public List<String> getSaltos() {
+        return saltos;
+    }
+
     /***
      * =========================    Main ()   =========================
+     *
+     * ================================================================
      */
     public static void main(String[] args) throws IOException {
         Leitor l = new Leitor();
@@ -520,9 +602,9 @@ public class Leitor {
         String[][] mat = l.geraMatriz();
         l.printaMatriz();
         System.out.println();
-           //System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
+        //System.out.println("Coordenadas vazias \n\n" + l.getCoordVazias());
         System.out.println("Vetor de visinhos");
-           //System.out.println(l.disTVisinhos());
+        //System.out.println(l.disTVisinhos());
         System.out.println("Posicoes vazias: " + l.getPosicoesVazias());
         System.out.println("Posicoes linha do agente " + l.linhaAgente(mat) + " Coluna agente: " + l.colunaAgente(mat));
         l._ALGORITIMOGENETICO();
