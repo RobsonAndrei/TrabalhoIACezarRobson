@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Leitor {
 
-    private static final String LABIRINTO_TXT = "labTest1.txt";
+    private static final String LABIRINTO_TXT = "labirinto4_20.txt";
     private static final String OKSAIDA = " ============ ENCONTROU A SAÍDA ============ ";
     private int tamanhoPopulacao;
     private static final int _TAMPOP = 11;
